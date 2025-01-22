@@ -54,3 +54,80 @@
 
 - 确保WiFi网络和API密钥正确。
 - 如果API响应时间较长，调整`client.setTimeout()`的值。
+
+
+Based on ESP32, this project connects to the DeepSeek API via WiFi and interacts with the API through serial communication.  
+The main functionalities include:
+
+---
+
+### **1. Hardware Initialization**:
+   - Initializes an SSD1306 OLED display using the `U8G2` library.
+   - Configures a button (connected to GPIO 2) for input.
+
+---
+
+### **2. WiFi Connection**:
+   - Connects to the specified WiFi network using the `WiFi` library.
+   - Displays "WiFi Connected" if the connection is successful; otherwise, displays "WiFi Failed" and enters an infinite loop.
+
+---
+
+### **3. Serial Communication**:
+   - Communicates with a computer via the `Serial` library.
+   - Allows the user to input a message. When the Enter key (`n`) is pressed, the message is sent to the DeepSeek API.
+
+---
+
+### **4. API Request**:
+   - Connects to the DeepSeek API via HTTPS using the `WiFiClientSecure` library.
+   - Constructs a JSON-formatted request payload containing the user's input message.
+   - Sends the request and receives the API's response.
+
+---
+
+### **5. Response Parsing**:
+   - Parses the JSON response from the API using the `ArduinoJson` library.
+   - Extracts and displays the content of the API's response.
+
+---
+
+### **6. Display Functionality**:
+   - Displays messages on the OLED screen using the `U8G2` library.
+   - Automatically paginates the display if the message is too long.
+
+---
+
+### **Code Structure**:
+- **`setup()`**: Initializes hardware and WiFi connection.
+- **`loop()`**: Main loop that checks for serial input and button state, and processes API requests.
+- **`serialEvent()`**: Handles serial input.
+- **`displayMessage()`**: Displays messages on the OLED screen.
+- **`connectToWiFi()`**: Connects to the WiFi network.
+- **`cleanInput()`**: Cleans user input to prevent JSON formatting errors.
+- **`buildPayload()`**: Constructs the JSON payload to send to the API.
+- **`sendToAPI()`**: Sends the request to the API and receives the response.
+- **`parseResponse()`**: Parses the JSON response from the API.
+
+---
+
+### **Usage Instructions**:
+
+1. **Hardware Connection**:
+   - Connect the SSD1306 OLED display to the ESP32's I2C pins (SCL: GPIO 42, SDA: GPIO 41).
+   - Connect a button to GPIO 2 and VCC (currently unused).
+
+2. **Software Configuration**:
+   - Replace `ssid`, `password`, and `api_key` in the code with your WiFi and DeepSeek API credentials.
+
+3. **Running the Code**:
+   - Upload the code to the ESP32.
+   - Open the Serial Monitor, input a message, and press Enter.
+   - The API's response will be displayed on the OLED screen and in the Serial Monitor.
+
+---
+
+### **Notes**:
+- Ensure the WiFi network and API key are correct.
+- If the API response time is long, adjust the value of `client.setTimeout()`.
+
